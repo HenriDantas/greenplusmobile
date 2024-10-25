@@ -1,0 +1,38 @@
+﻿
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<div class="top-row ps-3 navbar navbar-dark">
+@*     <div class="container-fluid">
+        <a class="navbar-brand" href="">Greenplus</a>
+    </div> *@
+
+    <button class="ms-auto bi bi-bell-fill notificacao"></button>
+    @* <input class ="ms-auto bi bi-bell-fill notificacao" type="checkbox" /> *@
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/home" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="produto">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Produto
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fornecedor">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Fornecedor
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="usuario">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Usuário
+            </NavLink>
+        </div>
+    </nav>
+</div>

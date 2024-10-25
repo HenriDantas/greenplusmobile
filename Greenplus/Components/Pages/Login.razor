@@ -1,0 +1,106 @@
+﻿@page "/"
+@inherits LayoutComponentBase
+
+@using Greenplus.Components.Pages
+
+@inject NavigationManager Navigation
+
+<html>
+    @if (!isLogin)
+    {
+        <div class="sidebar">
+            <Greenplus.Components.Layout.NavMenu />
+        </div>
+    }
+    <body>
+        
+        <div class="alert alert-danger" role="alert" style="display:@(showAlert ? "block" : "none");text-align: center;">
+        @((MarkupString)alertMessage)
+        </div>
+
+        <div class="cardLogin">
+            <h1>Login</h1>
+
+            <label class="loginLbl">Usuário</label>
+            <input class="loginInput" type="text" @bind="usuario" />
+
+            <label class="loginLbl" style="padding-right: 46vw ">Senha</label>
+            <input class="loginInput" type="password" @bind="senha"
+               />
+            @* @onkeypress="@(e => { if (e.Key == "Enter") OnButtonClick(); })" *@
+
+
+            <button class="loginBtn" @onclick="OnButtonClick">Entrar</button>
+        </div>
+    </body>
+</html>
+
+
+@code {
+
+    public HttpClient httpClient = new HttpClient();
+
+    private string usuario;
+    private string senha;
+    private bool showAlert = false;
+    private string alertMessage = string.Empty;
+    private bool isLogin;
+
+    protected override void OnInitialized()
+    {
+        isLogin = true;
+    }
+
+    private async void OnButtonClick()
+    {
+        if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(senha))
+        {
+            alertMessage = "Usuário e senha não podem estar vazios!";
+            showAlert = true;
+        } else
+        {
+            try
+            {
+                var query = await httpClient.GetFromJsonAsync<ResponseStatus>("https://rest-node-mztn.onrender.com/{\"tabela\":\"User\", \"where\":{\"username\":\"" + usuario + "\"}, \"senha\":\"" + senha + "\"}");
+
+                if(query.Status == 1)
+                {
+                    showAlert = false;
+                    Navigation.NavigateTo("/home");
+                } else if(query.Status == 0)
+                {                
+                    alertMessage = "Usuário ou Senha inválidos!";
+                    showAlert = true;
+
+                    await Task.Delay(3000);
+                    showAlert = false;
+                } else
+                {
+                    alertMessage = $"Usuário não encontrado!<br>Tente novamente.";
+                    showAlert = true;
+
+                    await Task.Delay(3000);
+                    showAlert = false;
+                }
+
+
+            } catch(Exception e)
+            {
+                alertMessage = $"Usuário não encontrado!<br>Tente novamente.";
+                showAlert = true;
+
+                await Task.Delay(3000);
+                showAlert = false;
+            }
+
+        }
+    }
+
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            OnButtonClick();
+        }
+    }
+}

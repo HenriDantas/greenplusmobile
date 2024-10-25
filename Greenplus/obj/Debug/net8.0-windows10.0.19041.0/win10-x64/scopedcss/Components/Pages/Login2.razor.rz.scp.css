@@ -1,0 +1,37 @@
+@namespace Greenplus.Pages;
+
+
+.custom-paragraph[b-tbbe0f7jif] {
+    color: green;
+    font-size: 18px;
+}
+
+.cardLogin[b-tbbe0f7jif] {
+    background-color: green;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40vh;
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin: auto;
+}
+
+.loginInput[b-tbbe0f7jif] {
+    background-color: lightgray;
+    border: 1px solid darkgray;
+    border-radius: 50px;
+    margin: 10px;
+    padding-left: 10px
+}
+
+.loginBtn[b-tbbe0f7jif] {
+    background-color: lightgray;
+    border: 1px solid darkgray;
+    border-radius: 50px;
+    margin: 10px;
+    pass
+}

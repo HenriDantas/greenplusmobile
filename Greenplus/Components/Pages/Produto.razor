@@ -1,0 +1,266 @@
+﻿@page "/produto"
+
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    </head>
+        @if (!isLogin)
+        {
+            <div class="sidebar">
+                <Greenplus.Components.Layout.NavMenu />
+            </div>
+        }
+    <body>
+        <div class="alert alert-danger" role="alert" style="display:@(showAlert ? "block" : "none");text-align: center;">
+            @((MarkupString)alertMessage)
+        </div>
+
+        <div class="form-group categoria">
+            <label>Categoria</label>
+            <div class="radio-options">
+                <label>
+                    <input type="radio" @onchange="selectVenda" value="venda" checked="@((venda))" />
+                    Venda
+                </label>
+                <label>
+                    <input type="radio" @onchange="selectUso" value="uso" checked="@((uso))" />
+                    Uso interno
+                </label>
+            </div>
+        </div>
+        @if (venda)
+        {
+            <div class="form-group">
+                <label for="nomePopular">Nome popular</label>
+                <input id="nomePopular" type="text" @bind="produto.NomePlanta" />
+            </div>
+
+            <div class="form-group">
+                <label for="nomeCientifico">Nome científico</label>
+                <input id="nomeCientifico" type="text" @bind="produto.NomeCientifico" />
+            </div>
+
+            <div class="form-group">
+                <label for="classificacao">Classificação</label>
+                <select id="classificacao" @bind="produto.Classificacao">
+                    <option value="">Selecione...</option>
+                    <option value="Pessima">Pessima</option>
+                    <option value="Ruim">Ruim</option>
+                    <option value="Neutra">Neutra</option>
+                    <option value="Boa">Boa</option>
+                    <option value="Otima">Otima</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="tempoDePlantio">Tempo de plantio</label>
+                    <input id="tempoDePlantio" type="text" @bind="produto.TempoEstimado" />
+                </div>
+
+                <div class="form-group">
+                    <label for="temperatura">Temperatura</label>
+                    <select id="temperatura" @bind="produto.Temperatura">
+                        <option value="">Selecione...</option>
+                        <option value="10.5">10.5</option>
+                        <option value="20.1">20.1</option>
+                        <option value="30.9">30.9</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="irrigacao">Irrigação</label>
+                <select id="irrigacao" style="width: 50%;" @bind="produto.Irrigacao">
+                    <option value="">Selecione...</option>
+                    <option value="1">Sim</option>
+                    <option value="0">Não</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="valorVenda">Valor de venda (R$)</label>
+            <input id="valorVenda" type="text" style="width: 50%;" @bind="produto.ValorVenda" />
+            </div>
+
+            <footer>
+            <button class="bi bi-search btn search-btn" @onclick="getProdutoByName"></button>
+            <button class="bi bi-trash-fill btn cancel-btn" @onclick="deleteProdutoByName"></button>
+            <button class="bi bi-check2 btn confirm-btn" @onclick="postOrEditProdutoByName"></button>
+            </footer>
+        } else if (uso)
+        {
+        <div class="cadastro-simples">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input id="nome" type="text" />
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="estadoConservacao">Estado de conservação</label>
+                <select id="estadoConservacao">
+                    <option value="">Selecione</option>
+                    <option value="bom">Bom</option>
+                    <option value="regular">Regular</option>
+                    <option value="ruim">Ruim</option>
+                </select>
+            </div>
+        </div>
+            <footer>
+            <button class="bi bi-search btn search-btn" @onclick="getProdutoByName"></button>
+            <button class="bi bi-trash-fill btn cancel-btn" @onclick="deleteProdutoByName"></button>
+            <button class="bi bi-check2 btn confirm-btn" @onclick="postOrEditProdutoByName"></button>
+            </footer>
+        }
+    </body>
+</html>
+
+@code {
+
+
+
+    // private readonly string connectionString = "Server=;Database=;User Id=;Password=;TrustServerCertificate=True;";
+
+    private bool showAlert = false;
+    private string alertMessage = string.Empty;
+    private bool isLogin;
+
+    private bool venda = true;
+    private bool uso = false;
+
+    public HttpClient httpClient = new HttpClient();
+    public Product produto = new Product();
+
+    protected override void OnInitialized()
+    {
+        isLogin = false;
+    }
+
+    public async Task getProdutoByName()
+    {
+
+        var query = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"NomePlanta\":\""+produto.NomePlanta+"\"}}");
+
+
+
+        produto = query[0];
+
+    }
+
+    public async Task deleteProdutoByName()
+    {
+        var query = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"NomePlanta\":\"" + produto.NomePlanta + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}");
+
+        produto = query[0];
+        if(await verificarCampos(produto))
+        {
+            try
+            {
+                await httpClient.DeleteFromJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"NomePlanta\":\"" + produto.NomePlanta + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}");
+
+                alertMessage = $"Produto deletado com sucesso!";
+                showAlert = true;
+
+                await Task.Delay(3000);
+                showAlert = false;
+
+                produto = new Product();
+            } catch
+            {
+                alertMessage = $"Ocorreu um erro ao deletar o produto!<br>Tente novamente.";
+                showAlert = true;
+
+                await Task.Delay(3000);
+                showAlert = false;
+            }
+        } else
+        {
+            alertMessage = $"Preencha todos os campos para deletar!";
+            showAlert = true;
+
+            await Task.Delay(3000);
+            showAlert = false;
+        }
+
+    }    
+
+    public async Task postOrEditProdutoByName()
+    {
+        var buscaProduto = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"NomePlanta\":\"" + produto.NomePlanta + "\"}}");
+
+
+        if (buscaProduto == null)
+        {
+            try
+            {
+                if (await verificarCampos(produto))
+                {
+                    var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"insert\":{\"NomePlanta\":\""+produto.NomePlanta+"\", \"NomeCientifico\":\""+produto.NomeCientifico+"\", \"Classificacao\":\""+produto.Classificacao+"\", \"TempoEstimado\":"+produto.TempoEstimado+", \"Temperatura\":"+produto.Temperatura+", \"Irrigacao\":"+produto.Irrigacao+", \"ValorVenda\":"+produto.ValorVenda+"}}", null);
+
+                    alertMessage = $"Produto cadastrado com sucesso!";
+                    showAlert = true;
+
+                    await Task.Delay(3000);
+                    showAlert = false;
+
+                    produto = new Product();
+
+                } else
+                {
+                    alertMessage = $"Preencha todos os campos para deletar!";
+                    showAlert = true;
+
+                    await Task.Delay(3000);
+                    showAlert = false;
+                }
+
+            } catch
+            {
+
+                alertMessage = $"Ocorreu um erro ao cadastrar o produto!<br>Tente novamente.";
+                showAlert = true;
+
+                await Task.Delay(3000);
+                showAlert = false;
+            }
+
+        } else
+        {
+            //update
+        }
+
+    }
+
+    public async Task<bool> verificarCampos<T>(T produto)
+    {
+        foreach (var prop in typeof(T).GetProperties())
+        {
+            var value = prop.GetValue(produto);
+
+            if (value == null || (value is string str && string.IsNullOrWhiteSpace(str)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void selectVenda()
+    {
+        uso = false;
+        venda = !venda;
+
+    }
+    
+    private void selectUso()
+    {
+        venda = false;
+        uso = !uso;
+    }
+
+}

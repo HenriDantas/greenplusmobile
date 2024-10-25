@@ -1,0 +1,88 @@
+﻿html {
+    height: 100vh;
+    width: 100vw;
+    background-color: #cccccc;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    background-color: #cccccc;
+}
+
+.resumo {
+    margin: 0px;
+    margin-top: 10px;
+    padding: 0px;
+    background-color: #cccccc;
+    height: auto;
+    display: flex;
+}
+
+.plantio {
+    background-color: #ff6f5b;
+    width: 50%;
+    margin: 15px;
+    border-radius: 20px;
+}
+
+.icon-plantio {
+    margin: 10px;
+    background-color: #ff1f00;
+    border-radius: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    min-width: 50px;
+    max-width: 50px;
+}
+
+.icon-colheita {
+    margin: 10px;
+    background-color: #ff6a00;
+    border-radius: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    min-width: 50px;
+    max-width: 50px;
+}
+
+.text-resumo h6 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding: 0px;
+    /*paddingbo: 0px;*/
+}
+
+.text-resumo p {
+    font-size: 30px;
+    margin: 0px;
+    padding: 0px;
+    color: white;
+}
+
+.colheita {
+    background-color: #ff9448;
+    width: 50%;
+    margin: 15px;
+    border-radius: 20px;
+}
+
+.pizza {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f1f1f1;
+    height: 40vh;
+    display: flex;
+    border-radius: 30px;
+}
+
+.coluna {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f1f1f1;
+    height: 30vh;
+    display: flex;
+    border-radius: 30px;
+}

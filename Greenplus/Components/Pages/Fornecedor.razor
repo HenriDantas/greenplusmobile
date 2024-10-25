@@ -1,0 +1,95 @@
+﻿@page "/fornecedor"
+@using System.Text.Json
+
+@if (!isLogin)
+{
+    <div class="sidebar">
+        <Greenplus.Components.Layout.NavMenu />
+    </div>
+}
+<h1>FORNECEDOR</h1>
+
+<button @onclick="FetchData">get todo teste</button>
+
+@if (usuario != null)
+{
+    <h3>titulo: @usuario.ID</h3>
+    <p>titulo: @usuario.Nome</p>
+    <p>titulo: @usuario.Sobrenome</p>
+    @* <p>titulo: @teste.tit</p> *@
+}
+
+@* @if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+ *@
+@code {
+    private bool isLogin;
+    public Teste usuario;
+
+    public HttpClient httpClient = new HttpClient();
+
+    public async Task FetchData()
+    {
+            var json = "{\"tabela\":\"Teste\", \"limite\":1, \"where\":{\"nome\":\"henri\"}}";
+            var url = "https://rest-node-mztn.onrender.com/" + Uri.EscapeDataString(json);
+
+    try
+    {
+        // Obtém a resposta da API como um array de Teste
+        var usuarios = await httpClient.GetFromJsonAsync<Teste[]>(url);
+        
+        // Se você espera apenas um objeto, pode pegar o primeiro elemento do array
+        if (usuarios != null && usuarios.Length > 0)
+        {
+            usuario = usuarios[0]; // Atribui o primeiro usuário retornado à variável usuario
+        }
+    }
+    catch (HttpRequestException ex)
+    {
+        Console.WriteLine($"Erro de requisição: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Erro inesperado: {ex.Message}");
+    }
+    }
+
+    protected override void OnInitialized()
+    {
+        // Código que será executado logo quando a tela inicia
+        isLogin = false;
+    }
+
+    public class Teste
+    {
+        public int ID { get; set; }
+        public string Nome { get; set; }
+        public string Sobrenome { get; set; }
+    }
+}

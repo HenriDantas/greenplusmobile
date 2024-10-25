@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\obj\\Debug\\net8.0-ios\\iossimulator-x64\\scopedcss\\bundle\\Greenplus.styles.css",
+      "PackagePath": "staticwebassets\\Greenplus.styles.css"
+    },
+    {
+      "Id": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-ios\\iossimulator-x64\\staticwebassets\\msbuild.Greenplus.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-ios\\iossimulator-x64\\staticwebassets\\msbuild.build.Greenplus.props",
+      "PackagePath": "build\\Greenplus.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-ios\\iossimulator-x64\\staticwebassets\\msbuild.buildMultiTargeting.Greenplus.props",
+      "PackagePath": "buildMultiTargeting\\Greenplus.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-ios\\iossimulator-x64\\staticwebassets\\msbuild.buildTransitive.Greenplus.props",
+      "PackagePath": "buildTransitive\\Greenplus.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

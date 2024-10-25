@@ -1,0 +1,108 @@
+﻿@page "/usuario"
+@using Greenplus.Database
+@using System.Text.Json
+@using System.Text
+
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    </head>
+    @if (!isLogin)
+    {
+        <div class="sidebar">
+            <Greenplus.Components.Layout.NavMenu />
+        </div>
+    }
+    <body>
+        <form>
+            @* <div class="card"> *@
+                <div class="form-group">
+                    <label for="nome-completo">Nome completo</label>
+                    <input type="text" id="nome-completo" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="cargo">Cargo</label>
+                    <input type="text" id="cargo" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="grupo">Grupo</label>
+                    <select id="grupo" class="form-control">
+                        <option value="">Selecione o grupo</option>
+                        <option value="grupo1">Grupo 1</option>
+                        <option value="grupo2">Grupo 2</option>
+                    </select>
+                </div>
+            @* </div> *@
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" class="form-control" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="login">Login</label>
+                    <input type="text" id="login" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" class="form-control" />
+                </div>
+            </div>
+        </form>
+        <footer>
+            <button class="bi bi-search btn search-btn" @onclick="getUserByName"></button>
+            <button class="bi bi-trash-fill btn cancel-btn"></button>
+            <button class="bi bi-check2 btn confirm-btn"></button>
+        </footer>
+    </body>
+</html>
+
+@code {
+    private bool isLogin;
+
+    public HttpClient httpClient = new HttpClient();
+    // private readonly string connectionString = "Server=SEU_SERVIDOR;Database=SEU_BANCO;User Id=SEU_USUARIO;Password=SUA_SENHA;TrustServerCertificate=True;";
+    public Teste usuario;
+
+    protected override void OnInitialized()
+    {
+        isLogin = false;
+    }
+
+    public async Task getUserByName()
+    {
+        var requestBody = new
+        {
+            tabela = "Teste",
+            select = new[] { "nome", "id" }
+        };
+        Console.WriteLine(requestBody);
+        var jsonContent = JsonSerializer.Serialize(requestBody);
+        Console.WriteLine(jsonContent); //json bonito p mandar no body(teste)
+
+        // var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        // Console.WriteLine(content);
+
+
+
+        var query = await httpClient.PostAsJsonAsync("https://rest-node-mztn.onrender.com/pegarbanco", jsonContent);
+
+        // usuario = query[0];
+
+
+    }
+
+    public class Teste
+    {
+        public int ID { get; set; }
+        public string Nome { get; set; }
+        public string Sobrenome { get; set; }
+    }
+
+
+}

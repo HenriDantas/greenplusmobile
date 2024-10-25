@@ -1,0 +1,70 @@
+﻿@page "/home"
+
+@inject NavigationManager Navigation
+
+<html>
+    @if (!isLogin)
+    {
+        <div class="sidebar">
+            <Greenplus.Components.Layout.NavMenu />
+        </div>
+    }
+    <body>
+        <div class="resumo">
+            <div class="plantio">
+                <div class="d-flex align-items-center">
+                    <div class="icon-plantio"></div>
+                    
+                    <div class="text-resumo">
+                        <h6>Plantio</h6>
+                        <p>50</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="colheita">
+                <div class="d-flex align-items-center">
+                    <div class="icon-colheita"></div>
+
+                    <div class="text-resumo">
+                    <h6>Colheita</h6>
+                        <p>31</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pizza">
+            <p><strong>Vendas</strong> por Categoria</p>
+
+            @* colocar grafico? *@
+        </div>
+
+        <div class="coluna">
+            <p>Total de <strong>Vendas</strong></p>
+
+            @* colocar grafico? *@
+        </div>
+    </body>
+</html>
+
+
+@code {
+    private bool isMenuVisible = false;
+    private string menuStyle = "width: 0px;"; // Menu inicialmente oculto fora da tela
+
+    private void ToggleMenu()
+    {
+        isMenuVisible = !isMenuVisible;
+        menuStyle = isMenuVisible ? "left: 0;" : "left: -200px;"; // Mostra ou oculta o menu
+    }
+
+    private bool isLogin;
+
+
+    protected override void OnInitialized()
+    {
+        // Código que será executado logo quando a tela inicia
+        isLogin = false;
+    }
+}
