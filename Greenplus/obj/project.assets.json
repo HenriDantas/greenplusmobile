@@ -101096,11 +101096,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\Greenplus.csproj",
+      "projectUniqueName": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\Greenplus.csproj",
       "projectName": "Greenplus",
-      "projectPath": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\Greenplus.csproj",
+      "projectPath": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\Greenplus.csproj",
       "packagesPath": "C:\\Users\\santo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\obj\\",
+      "outputPath": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [

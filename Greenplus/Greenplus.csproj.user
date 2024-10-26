@@ -3,9 +3,9 @@
   <PropertyGroup>
     <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
     <ActiveDebugFramework>net8.0-android</ActiveDebugFramework>
-    <ActiveDebugProfile>Android Emulator</ActiveDebugProfile>
+    <ActiveDebugProfile>Pixel 6a - API 29 (Android 10.0 - API 29)</ActiveDebugProfile>
     <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
-    <DefaultDevice>pixel_6a_-_api_34</DefaultDevice>
+    <DefaultDevice>pixel_6a_-_api_29</DefaultDevice>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">

@@ -29,8 +29,12 @@
                />
             @* @onkeypress="@(e => { if (e.Key == "Enter") OnButtonClick(); })" *@
 
-
-            <button class="loginBtn" @onclick="OnButtonClick">Entrar</button>
+            @if (isDisabled == false)
+            {
+                <button class="loginBtn" @onclick="OnButtonClick">Entrar</button>
+            }else{
+                <button class="loginBtn" style="background-color:gray;">Entrar</button>
+            }
         </div>
     </body>
 </html>
@@ -45,13 +49,14 @@
     private bool showAlert = false;
     private string alertMessage = string.Empty;
     private bool isLogin;
+    private bool isDisabled = false;
 
     protected override void OnInitialized()
     {
         isLogin = true;
     }
 
-    private async void OnButtonClick()
+    private async Task OnButtonClick()
     {
         if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(senha))
         {
@@ -61,36 +66,53 @@
         {
             try
             {
+                isDisabled = true;
                 var query = await httpClient.GetFromJsonAsync<ResponseStatus>("https://rest-node-mztn.onrender.com/{\"tabela\":\"User\", \"where\":{\"username\":\"" + usuario + "\"}, \"senha\":\"" + senha + "\"}");
 
                 if(query.Status == 1)
                 {
                     showAlert = false;
                     Navigation.NavigateTo("/home");
+                    isDisabled = false;
+
                 } else if(query.Status == 0)
                 {                
                     alertMessage = "Usuário ou Senha inválidos!";
                     showAlert = true;
+                    isDisabled = false;
+
+                    StateHasChanged();
 
                     await Task.Delay(3000);
                     showAlert = false;
+
+                    StateHasChanged();
                 } else
                 {
                     alertMessage = $"Usuário não encontrado!<br>Tente novamente.";
                     showAlert = true;
+                    isDisabled = false;
+
+                    StateHasChanged();
 
                     await Task.Delay(3000);
                     showAlert = false;
-                }
 
+                    StateHasChanged();
+                }
 
             } catch(Exception e)
             {
                 alertMessage = $"Usuário não encontrado!<br>Tente novamente.";
                 showAlert = true;
+                isDisabled = false;
+
+                StateHasChanged();
 
                 await Task.Delay(3000);
                 showAlert = false;
+
+                StateHasChanged();
             }
 
         }

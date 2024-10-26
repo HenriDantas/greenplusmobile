@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HdDCm+nsERw=",
+  "dgSpecHash": "u4pNNATvHZM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\santo\\Downloads\\GreenPlusBlazor-master\\GreenPlusBlazor-master\\Greenplus\\Greenplus\\Greenplus.csproj",
+  "projectFilePath": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\Greenplus.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\santo\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\santo\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
