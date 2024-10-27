@@ -159,14 +159,29 @@
         {
             var query = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"limite\":1, \"where\":{\"NomePlanta\":\""+produto.NomePlanta+"\"}}");
 
-            produto = query[0];
-            StateHasChanged();
+            if (query[0] != null)
+            {
+                produto = query[0];
+                StateHasChanged();
 
-            await Task.Delay(3000);
-            showDangerAlert = false;
-            isDisabled = false;
+                await Task.Delay(3000);
+                showDangerAlert = false;
+                isDisabled = false;
 
-            StateHasChanged();
+                StateHasChanged();
+            } else
+            {
+                alertMessage = $"Produto não encontrado!";
+                showDangerAlert = true;
+                isDisabled = false;
+
+                StateHasChanged();
+
+                await Task.Delay(3000);
+                showDangerAlert = false;
+
+                StateHasChanged();
+            }
 
         } catch
         {
