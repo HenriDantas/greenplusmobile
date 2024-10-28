@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Greenplus")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+64dce080090f2927414c0107f55c8d042d9249aa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+32710515e363fcd480a5a384e5cc04b3a92c59b7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Greenplus")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Greenplus")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

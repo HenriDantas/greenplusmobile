@@ -62,6 +62,14 @@
         {
             alertMessage = "Usuário e senha não podem estar vazios!";
             showAlert = true;
+            isDisabled = false;
+
+            StateHasChanged();
+
+            await Task.Delay(3000);
+            showAlert = false;
+
+            StateHasChanged();
         } else
         {
             try

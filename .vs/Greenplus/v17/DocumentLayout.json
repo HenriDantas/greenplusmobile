@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D22DE453-29BD-40C4-A44A-41E4A46ABA2B}|Greenplus\\Greenplus.csproj|c:\\users\\santo\\documents\\github\\greenplusmobile\\greenplus\\components\\pages\\produto.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D22DE453-29BD-40C4-A44A-41E4A46ABA2B}|Greenplus\\Greenplus.csproj|solutionrelative:greenplus\\components\\pages\\produto.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D22DE453-29BD-40C4-A44A-41E4A46ABA2B}|Greenplus\\Greenplus.csproj|c:\\users\\santo\\documents\\github\\greenplusmobile\\greenplus\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{D22DE453-29BD-40C4-A44A-41E4A46ABA2B}|Greenplus\\Greenplus.csproj|solutionrelative:greenplus\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D22DE453-29BD-40C4-A44A-41E4A46ABA2B}|Greenplus\\Greenplus.csproj|c:\\users\\santo\\documents\\github\\greenplusmobile\\greenplus\\components\\pages\\produto.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D22DE453-29BD-40C4-A44A-41E4A46ABA2B}|Greenplus\\Greenplus.csproj|solutionrelative:greenplus\\components\\pages\\produto.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D22DE453-29BD-40C4-A44A-41E4A46ABA2B}|Greenplus\\Greenplus.csproj|c:\\users\\santo\\documents\\github\\greenplusmobile\\greenplus\\components\\pages\\produto.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -97,24 +97,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 390,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Login.razor",
               "DocumentMoniker": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\Components\\Pages\\Login.razor",
               "RelativeDocumentMoniker": "Greenplus\\Components\\Pages\\Login.razor",
               "ToolTip": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\Components\\Pages\\Login.razor",
               "RelativeToolTip": "Greenplus\\Components\\Pages\\Login.razor",
-              "ViewState": "AgIAAD0AAAAAAAAAAAAAAFUAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAAAEYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-12T13:51:14.587Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Produto.razor",
               "DocumentMoniker": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\Components\\Pages\\Produto.razor",
               "RelativeDocumentMoniker": "Greenplus\\Components\\Pages\\Produto.razor",
