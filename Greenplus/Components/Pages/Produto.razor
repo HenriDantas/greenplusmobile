@@ -201,30 +201,13 @@
 
     public async Task deleteProdutoByName()
     {
-        await getProdutoByName();
+        isDisabled = true;
 
-        if(await verificarCampos(produto))
+        if (await verificarCamposProduct(produto))
         {
-            try
+            if (produto.PlantaId == null)
             {
-                //mudar requisicao cpa(quase ctz)
-                await httpClient.DeleteFromJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"PlantaId\": \""+produto.PlantaId+"\"}}");
-
-                alertMessage = $"Produto deletado com sucesso!";
-                showSuccessAlert = true;
-                isDisabled = false;
-
-                StateHasChanged();
-
-                await Task.Delay(3000);
-                showSuccessAlert = false;
-
-                StateHasChanged();
-
-                produto = new Product();
-            } catch
-            {
-                alertMessage = $"Ocorreu um erro ao deletar o produto!<br>Tente novamente.";
+                alertMessage = $"Produto não encontrado!";
                 showDangerAlert = true;
                 isDisabled = false;
 
@@ -234,7 +217,38 @@
                 showDangerAlert = false;
 
                 StateHasChanged();
+                return;
             }
+
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://rest-node-mztn.onrender.com/{{\"tabela\":\"Produto\", \"where\":{{\"PlantaId\": \"{produto.PlantaId}\"}}}}");
+
+                var response = await httpClient.SendAsync(request);
+
+                alertMessage = response.IsSuccessStatusCode
+                    ? "Produto deletado com sucesso!"
+                    : "Erro ao deletar o produto! Tente novamente.";
+
+                showSuccessAlert = response.IsSuccessStatusCode;
+                showDangerAlert = !response.IsSuccessStatusCode;
+
+                isDisabled = false;
+                StateHasChanged();
+
+                await Task.Delay(3000);
+                showSuccessAlert = showDangerAlert = false;
+                StateHasChanged();
+
+                if (response.IsSuccessStatusCode) produto = new Product();
+            } catch
+            {
+                alertMessage = "Ocorreu um erro ao deletar o produto!<br>Tente novamente.";
+                showDangerAlert = true;
+                isDisabled = false;
+                StateHasChanged();
+            }
+
         } else
         {
             alertMessage = $"Preencha todos os campos para deletar!";
@@ -254,47 +268,78 @@
     public async Task postOrEditProdutoByName()
     {
         isDisabled = true;
-        // var produtoBuscado = new Product;
-        //ta dando erro, ta cadastrando quando é p editar, tentar verificar só se o produto.provaId existe e dps verificar se os campos existem (CASO NECESSARIO)
-        try
+        // await getProdutoByName();
+
+        if (produto.PlantaId != null) //criar ou não
         {
-            var produtoBuscado = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"PlantaId\":\"" + produto.PlantaId + "\"}}");
-
-            if (await verificarCampos(produtoBuscado))
+            if (await verificarCamposProduct(produto))
             {
-
                 try
                 {
-                    if (await verificarCampos(produto))
-                    {
-                        var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"insert\":{\"NomePlanta\":\""+produto.NomePlanta+"\", \"NomeCientifico\":\""+produto.NomeCientifico+"\", \"Classificacao\":\""+produto.Classificacao+"\", \"TempoEstimado\":"+produto.TempoEstimado+", \"Temperatura\":"+produto.Temperatura+", \"Irrigacao\":"+produto.Irrigacao+", \"ValorVenda\":"+produto.ValorVenda+"}}", null);
+                    var query = await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"PlantaId\":\"" + produto.PlantaId + "\"},\"update\":{\"NomePlanta\":\"" + produto.NomePlanta + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
 
-                        alertMessage = $"Produto cadastrado com sucesso!";
-                        showSuccessAlert = true;
-                        isDisabled = false;
+                    alertMessage = $"Produto editado com sucesso!";
+                    showSuccessAlert = true;
+                    isDisabled = false;
 
-                        StateHasChanged();
+                    StateHasChanged();
 
-                        await Task.Delay(3000);
-                        showSuccessAlert = false;
+                    await Task.Delay(3000);
+                    showSuccessAlert = false;
 
-                        StateHasChanged();
+                    StateHasChanged();
 
-                        produto = new Product();
+                    produto = new Product();
 
-                    } else
-                    {
-                        alertMessage = $"Preencha todos os campos para criar um produto!";
-                        showDangerAlert = true;
-                        isDisabled = false;
+                } catch
+                {
 
-                        StateHasChanged();
+                    alertMessage = $"Ocorreu um erro ao editar o produto!<br>Tente novamente.";
+                    showDangerAlert = true;
+                    isDisabled = false;
 
-                        await Task.Delay(3000);
-                        showDangerAlert = false;
+                    StateHasChanged();
 
-                        StateHasChanged();
-                    }
+                    await Task.Delay(3000);
+                    showDangerAlert = false;
+
+                    StateHasChanged();
+                }
+
+            } else
+            {
+                alertMessage = $"Preencha todos os campos para editar um produto!";
+                showDangerAlert = true;
+                isDisabled = false;
+
+                StateHasChanged();
+
+                await Task.Delay(3000);
+                showDangerAlert = false;
+
+                StateHasChanged();
+            }
+
+        } else
+        {
+            if (await verificarCamposProduct(produto))
+            {
+                try
+                {
+                    var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"insert\":{\"NomePlanta\":\"" + produto.NomePlanta + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
+
+                    alertMessage = $"Produto cadastrado com sucesso!";
+                    showSuccessAlert = true;
+                    isDisabled = false;
+
+                    StateHasChanged();
+
+                    await Task.Delay(3000);
+                    showSuccessAlert = false;
+
+                    StateHasChanged();
+
+                    produto = new Product();
 
                 } catch
                 {
@@ -313,59 +358,31 @@
 
             } else
             {
-                try
-                {
-                    var query = await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"PlantaId\":\""+produto.PlantaId+"\"},\"update\":{\"NomePlanta\":\"" + produto.NomePlanta + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
+                alertMessage = $"Preencha todos os campos para criar um produto!";
+                showDangerAlert = true;
+                isDisabled = false;
 
-                    alertMessage = $"Produto editado com sucesso!";
-                    showSuccessAlert = true;
-                    isDisabled = false;
+                StateHasChanged();
 
-                    StateHasChanged();
+                await Task.Delay(3000);
+                showDangerAlert = false;
 
-                    await Task.Delay(3000);
-                    showSuccessAlert = false;
-
-                    StateHasChanged();
-
-                    produto = new Product();
-                } catch
-                {
-                    alertMessage = $"Ocorreu um erro ao cadastrar o produto!<br>Tente novamente.";
-                    showDangerAlert = true;
-                    isDisabled = false;
-
-                    StateHasChanged();
-
-                    await Task.Delay(3000);
-                    showDangerAlert = false;
-
-                    StateHasChanged();
-                }
+                StateHasChanged();
             }
-            
-        } catch
-        {
-            alertMessage = $"Preencha todos os campos para criar ou editar um produto!";
-            showDangerAlert = true;
-            isDisabled = false;
-
-            StateHasChanged();
-
-            await Task.Delay(3000);
-            showDangerAlert = false;
-
-            StateHasChanged();
         }
-
 
         isDisabled = false;
     }
 
-    public async Task<bool> verificarCampos<T>(T produto)
+    public async Task<bool> verificarCamposProduct<Product>(Product produto)
     {
-        foreach (var prop in typeof(T).GetProperties())
+        var propriedadesIgnoradas = new[] { "PlantaId" };
+
+        foreach (var prop in typeof(Product).GetProperties())
         {
+            if (propriedadesIgnoradas.Contains(prop.Name))//ignora o plantaid pq ele pode ser null
+                continue;
+
             var value = prop.GetValue(produto);
 
             if (value == null || (value is string str && string.IsNullOrWhiteSpace(str)))
@@ -375,6 +392,7 @@
         }
         return true;
     }
+
 
     private void selectVenda()
     {
