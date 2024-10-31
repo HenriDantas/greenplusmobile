@@ -19,71 +19,68 @@
         </div>
 
         <div class="form-group categoria">
-            <label>Categoria</label>
+            <label><strong>Categoria</strong></label>
             <div class="radio-options">
                 <label>
-                    <input type="radio" @onchange="selectVenda" value="venda" checked="@((venda))" />
+                    <input type="radio" @onchange="selectVenda" checked="@((!produto.Categoria))" />
                     Venda
                 </label>
                 <label>
-                    <input type="radio" @onchange="selectUso" value="uso" checked="@((uso))" />
+                <input type="radio" @onchange="selectUso" checked="@((produto.Categoria))" />
                     Uso interno
                 </label>
             </div>
         </div>
-        @if (venda)
+    @if (!produto.Categoria)
         {
             <div class="form-group">
                 <label for="nomePopular">Nome popular</label>
-                <input id="nomePopular" type="text" @bind="produto.NomePlanta" />
+                <input id="nomePopular" type="text" @bind="produto.Nome" disabled="@(isDisabled)" />
             </div>
 
             <div class="form-group">
                 <label for="nomeCientifico">Nome científico</label>
-                <input id="nomeCientifico" type="text" @bind="produto.NomeCientifico" />
+                <input id="nomeCientifico" type="text" @bind="produto.NomeCientifico" disabled="@(isDisabled)" />
             </div>
 
             <div class="form-group">
                 <label for="classificacao">Classificação</label>
-                <select id="classificacao" @bind="produto.Classificacao">
+                <select id="classificacao" @bind="produto.Classificacao" disabled="@(isDisabled)">
                     <option value="">Selecione...</option>
-                    <option value="Pessima">Pessima</option>
-                    <option value="Ruim">Ruim</option>
-                    <option value="Neutra">Neutra</option>
-                    <option value="Boa">Boa</option>
-                    <option value="Otima">Otima</option>
+                    <option value="Tuberosa">Tuberosa</option>
+                    <option value="Tuberosa2">Tuberosa2</option>
+
                 </select>
             </div>
 
             <div class="row">
                 <div class="form-group">
-                    <label for="tempoDePlantio">Tempo de plantio</label>
-                    <input id="tempoDePlantio" type="text" @bind="produto.TempoEstimado" />
+                    <label for="tempoDePlantio">Tempo de plantio / Dias</label>
+                    <input id="tempoDePlantio" type="text" @bind="produto.TempoEstimado" disabled="@(isDisabled)"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="temperatura">Temperatura</label>
-                    <select id="temperatura" @bind="produto.Temperatura">
-                        <option value="">Selecione...</option>
-                        <option value="10.5">10.5</option>
-                        <option value="20.1">20.1</option>
-                        <option value="30.9">30.9</option>
-                    </select>
+                    <label for="temperatura">Temperatura / °C</label>
+                <input id="tempoDePlantio" type="text" @bind="produto.Temperatura" disabled="@(isDisabled)"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="irrigacao">Irrigação</label>
-                <select id="irrigacao" style="width: 50%;" @bind="produto.Irrigacao">
+                <label for="irrigacao">Irrigação / Hrs</label>
+                <select id="irrigacao" style="width: 50%;" @bind="produto.Irrigacao" disabled="@(isDisabled)">
                     <option value="">Selecione...</option>
-                    <option value="1">Sim</option>
-                    <option value="0">Não</option>
+                    <option value="4">4 Horas</option>
+                    <option value="8">8 Horas</option>
+                    <option value="12">12 Horas</option>
+                    <option value="16">16 Horas</option>
+                    <option value="20">20 Horas</option>
+                    <option value="24">24 Horas</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="valorVenda">Valor de venda (R$)</label>
-            <input id="valorVenda" type="text" style="width: 50%;" @bind="produto.ValorVenda" />
+                <input id="valorVenda" type="text" style="width: 50%;" @bind="produto.ValorVenda" disabled="@(isDisabled)" />
             </div>
 
             <footer>
@@ -97,33 +94,39 @@
                     @onclick="postOrEditProdutoByName" disabled="@(isDisabled)">
             </button>
             </footer>
-        } else if (uso)
+        } else if (produto.Categoria)
         {
-        <div class="cadastro-simples">
-            <div class="form-group">
-                <label for="nome">Nome</label>
-                <input id="nome" type="text" />
-            </div>
+            <div class="cadastro-simples">
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" @bind="produto.Nome" disabled="@(isDisabled)" />
+                </div>
 
-            <div class="form-group">
-                <label for="descricao">Descrição</label>
-                <textarea id="descricao"></textarea>
-            </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" @bind="produto.Descricao" disabled="@(isDisabled)"></textarea>
+                </div>
 
-            <div class="form-group">
-                <label for="estadoConservacao">Estado de conservação</label>
-                <select id="estadoConservacao">
-                    <option value="">Selecione</option>
-                    <option value="bom">Bom</option>
-                    <option value="regular">Regular</option>
-                    <option value="ruim">Ruim</option>
-                </select>
+                <div class="form-group">
+                    <label for="estadoConservacao">Estado de conservação</label>
+                    <select id="estadoConservacao" @bind="produto.EstadoDeConservacao" disabled="@(isDisabled)">
+                        <option value="">Selecione</option>
+                        <option value="bom">Bom</option>
+                        <option value="regular">Regular</option>
+                        <option value="ruim">Ruim</option>
+                    </select>
+                </div>
             </div>
-        </div>
             <footer>
-            <button class="bi bi-search btn search-btn" @onclick="getProdutoByName" disabled="@(!isDisabled)"></button>
-            <button class="bi bi-trash-fill btn cancel-btn" @onclick="deleteProdutoByName"></button>
-            <button class="bi bi-check2 btn confirm-btn" @onclick="postOrEditProdutoByName"></button>
+                <button class="bi bi-search btn search-btn" style="background-color:@(isDisabled ? "gray" : "orange")"
+                        @onclick="getProdutoByName" disabled="@(isDisabled)">
+                </button>
+                <button class="bi bi-trash-fill btn cancel-btn" style="background-color:@(isDisabled ? "gray" : "red")"
+                        @onclick="deleteProdutoByName" disabled="@(isDisabled)">
+                </button>
+                <button class="bi bi-check2 btn confirm-btn" style="background-color:@(isDisabled ? "gray" : "green")"
+                        @onclick="postOrEditProdutoByName" disabled="@(isDisabled)">
+                </button>
             </footer>
         }
     </body>
@@ -141,8 +144,8 @@
     private bool isLogin;
     private bool isDisabled = false;
 
-    private bool venda = true;
-    private bool uso = false;
+    // private bool venda = true;
+    // private bool uso = false;
 
     public HttpClient httpClient = new HttpClient();
     public Product produto = new Product();
@@ -150,6 +153,7 @@
     protected override void OnInitialized()
     {
         isLogin = false;
+        produto.Categoria = false;
     }
 
     public async Task getProdutoByName()
@@ -157,7 +161,7 @@
         isDisabled = true;
         try
         {
-            var query = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"limite\":1, \"where\":{\"NomePlanta\":\""+produto.NomePlanta+"\"}}");
+            var query = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"limite\":1, \"where\":{\"Nome\":\"" + produto.Nome + "\",\"Categoria\":\""+produto.Categoria+"\"}}");
 
             if (query[0] != null)
             {
@@ -185,7 +189,7 @@
 
         } catch
         {
-            alertMessage = $"Produto não encontrado!";
+            alertMessage = $"Produto não encontrado!!";
             showDangerAlert = true;
             isDisabled = false;
 
@@ -205,7 +209,7 @@
 
         if (await verificarCamposProduct(produto))
         {
-            if (produto.PlantaId == null)
+            if (produto.ProdutoId == null)
             {
                 alertMessage = $"Produto não encontrado!";
                 showDangerAlert = true;
@@ -222,7 +226,7 @@
 
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://rest-node-mztn.onrender.com/{{\"tabela\":\"Produto\", \"where\":{{\"PlantaId\": \"{produto.PlantaId}\"}}}}");
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://rest-node-mztn.onrender.com/{{\"tabela\":\"Produto\", \"where\":{{\"ProdutoId\": \"{produto.ProdutoId}\"}}}}");
 
                 var response = await httpClient.SendAsync(request);
 
@@ -232,15 +236,15 @@
 
                 showSuccessAlert = response.IsSuccessStatusCode;
                 showDangerAlert = !response.IsSuccessStatusCode;
-
+                if (response.IsSuccessStatusCode) produto = new Product();
                 isDisabled = false;
+
                 StateHasChanged();
 
                 await Task.Delay(3000);
                 showSuccessAlert = showDangerAlert = false;
                 StateHasChanged();
 
-                if (response.IsSuccessStatusCode) produto = new Product();
             } catch
             {
                 alertMessage = "Ocorreu um erro ao deletar o produto!<br>Tente novamente.";
@@ -268,15 +272,20 @@
     public async Task postOrEditProdutoByName()
     {
         isDisabled = true;
-        // await getProdutoByName();
 
-        if (produto.PlantaId != null) //criar ou não
+        if (produto.ProdutoId != null) //criar ou não
         {
             if (await verificarCamposProduct(produto))
             {
                 try
                 {
-                    var query = await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"PlantaId\":\"" + produto.PlantaId + "\"},\"update\":{\"NomePlanta\":\"" + produto.NomePlanta + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
+                    if (produto.Categoria)
+                    {
+                        var query = await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"ProdutoId\":\"" + produto.ProdutoId + "\"},\"update\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome + "\", \"Descricao\":\"" + produto.Descricao + "\", \"EstadoDeConservacao\":\"" + produto.EstadoDeConservacao + "\"}}", null);
+                    } else
+                    {
+                        await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"ProdutoId\":\"" + produto.ProdutoId + "\"},\"update\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
+                    }
 
                     alertMessage = $"Produto editado com sucesso!";
                     showSuccessAlert = true;
@@ -326,7 +335,13 @@
             {
                 try
                 {
-                    var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"insert\":{\"NomePlanta\":\"" + produto.NomePlanta + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
+                    if (produto.Categoria)
+                    {
+                        var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"insert\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome + "\", \"Descricao\":\"" + produto.Descricao + "\", \"EstadoDeConservacao\":\"" + produto.EstadoDeConservacao + "\"}}", null);
+                    } else
+                    {
+                        var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"insert\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
+                    }
 
                     alertMessage = $"Produto cadastrado com sucesso!";
                     showSuccessAlert = true;
@@ -374,16 +389,18 @@
         isDisabled = false;
     }
 
-    public async Task<bool> verificarCamposProduct<Product>(Product produto)
+    public async Task<bool> verificarCamposProduct<Product>(Product p)
     {
-        var propriedadesIgnoradas = new[] { "PlantaId" };
+        var propriedadesIgnoradas = !produto.Categoria //se n for interno ignora isso 
+            ? new[] { "ProdutoId", "Descricao", "EstadoDeConservacao" }
+            : new[] { "ProdutoId", "NomeCientifico", "Classificacao", "TempoEstimado", "Temperatura", "Irrigacao", "ValorVenda" };
 
         foreach (var prop in typeof(Product).GetProperties())
         {
-            if (propriedadesIgnoradas.Contains(prop.Name))//ignora o plantaid pq ele pode ser null
+            if (propriedadesIgnoradas.Contains(prop.Name))//ignora tudo que pode ser null
                 continue;
 
-            var value = prop.GetValue(produto);
+            var value = prop.GetValue(p);
 
             if (value == null || (value is string str && string.IsNullOrWhiteSpace(str)))
             {
@@ -394,17 +411,15 @@
     }
 
 
+
     private void selectVenda()
     {
-        uso = false;
-        venda = !venda;
-
+        produto.Categoria = false;
     }
     
     private void selectUso()
     {
-        venda = false;
-        uso = !uso;
+        produto.Categoria = true;
     }
 
 }

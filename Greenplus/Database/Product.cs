@@ -9,13 +9,16 @@ namespace Greenplus.Database
 {
     public class Product
     {
-        public int? PlantaId {  get; set; }
-        public string NomePlanta {  get; set; }
-        public string NomeCientifico{  get; set; }
-        public string Classificacao {  get; set; }
-        public int TempoEstimado {  get; set; }
-        public decimal Temperatura {  get; set; }
-        public int Irrigacao {  get; set; }
-        public float ValorVenda {  get; set; }
+        public int? ProdutoId {  get; set; }
+        public bool Categoria {  get; set; }
+        public string? Nome {  get; set; }
+        public string? NomeCientifico {  get; set; }
+        public string? Descricao { get; set; }
+        public string? EstadoDeConservacao { get; set; }
+        public string? Classificacao {  get; set; }
+        public int? TempoEstimado {  get; set; }
+        public int? Temperatura {  get; set; }
+        public int? Irrigacao {  get; set; }
+        public float? ValorVenda {  get; set; }
     }
 }
