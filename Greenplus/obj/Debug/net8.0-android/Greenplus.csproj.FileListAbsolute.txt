@@ -3401,3 +3401,4 @@ C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-andro
 C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\stamp\_GenerateJavaStubs.stamp
 C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\android\assets\Blazored.Typeahead.dll

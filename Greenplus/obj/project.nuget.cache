@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "u4pNNATvHZM=",
+  "dgSpecHash": "7WQ863Jlq6I=",
   "success": true,
   "projectFilePath": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\Greenplus.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\santo\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\santo\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
+    "C:\\Users\\santo\\.nuget\\packages\\blazored.typeahead\\4.7.0\\blazored.typeahead.4.7.0.nupkg.sha512",
     "C:\\Users\\santo\\.nuget\\packages\\communitytoolkit.mvvm\\8.3.2\\communitytoolkit.mvvm.8.3.2.nupkg.sha512",
     "C:\\Users\\santo\\.nuget\\packages\\entityframework\\6.5.1\\entityframework.6.5.1.nupkg.sha512",
     "C:\\Users\\santo\\.nuget\\packages\\googlegson\\2.10.1.4\\googlegson.2.10.1.4.nupkg.sha512",

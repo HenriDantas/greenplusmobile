@@ -5,6 +5,7 @@ public class MonoPackageManager_Resources {
 		"Greenplus.dll",
 		"Azure.Core.dll",
 		"Azure.Identity.dll",
+		"Blazored.Typeahead.dll",
 		"CommunityToolkit.Mvvm.dll",
 		"EntityFramework.SqlServer.dll",
 		"EntityFramework.dll",

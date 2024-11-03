@@ -62,10 +62,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <MauiImage Remove="Resources\Images\baqground.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
       <None Remove="Components\Pages\Fornecedor.razor.css" />
       <None Remove="Components\Pages\Home.razor.css" />
       <None Remove="Components\Pages\Produto.razor.css" />
       <None Remove="Components\Pages\Usuario.razor.css" />
+      <None Remove="Resources\Images\baqground.jpg" />
     </ItemGroup>
 
     <ItemGroup>
@@ -77,6 +82,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Blazored.Typeahead" Version="4.7.0" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
         <PackageReference Include="EntityFramework" Version="6.5.1" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
@@ -95,6 +101,10 @@
         <PackageReference Include="SQLitePCLRaw.core" Version="2.1.10" />
         <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.10" />
         <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="wwwroot\baqground.jpg" />
     </ItemGroup>
 
 </Project>

@@ -1,67 +1,17 @@
-﻿* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+﻿
 html {
     background-color: #f5f5f5;
-    height: 100vh;
-    width: 100vw;
+    overflow: hidden;
 }
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
-    /*display: flex;*/
-    height: 100vh;
-    width: 100vw;
+    height: 100vh !important;
+    width: 100vw !important;
     padding: 0px 15px 0px 15px;
+    overflow: hidden;
+    margin-top: 20px;
 }
-
-/*.opcoes{
-    display: flex;
-}
-
-.categoria {
-
-}
-
-.opcoes label{
-    margin: 0px 10px 0px 0px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.d-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    gap: 20px; 
-}*/
-
-/*.content{
-    margin: 0px 50px 0px 50px;
-}*/
-
-/*form {
-    margin: 25px;
-}*/
-
-/*.form-container {
-    background-color: #f5f5f5;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-}*/
-
-/* Estilo geral para os inputs e selects */
-/*input[type="text"],
-input[type="number"],*/
 
 select {
     width: 100%;
@@ -71,40 +21,6 @@ select {
     border: 1px solid #ccc;
     border-radius: 10px;
     font-size: 16px;
-}
-
-/* Estilo para os radio buttons */
-/*input[type="radio"] {
-    margin-right: 5px;
-}*/
-
-/* Estilo para os labels */
-/*label {
-    font-weight: bold;
-    margin-top: 10px;
-    display: block;
-}*/
-
-/* Container para agrupar as opções de categoria */
-/*div {
-    margin-bottom: 15px;
-}*/
-
-/* Estilo para o formulário */
-/*h3 {
-    margin-bottom: 20px;
-    font-family: Arial, sans-serif;
-}*/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    padding: 20px;
 }
 
 .container {
@@ -157,14 +73,14 @@ textarea {
     gap: 15px;
 }
 
-    .radio-options label {
-        display: flex;
-        align-items: center;
-    }
+.radio-options label {
+    display: flex;
+    align-items: center;
+}
 
-    .radio-options input[type="radio"] {
-        margin-right: 5px;
-    }
+.radio-options input[type="radio"] {
+    margin-right: 5px;
+}
 
 .row {
     display: flex;
@@ -202,5 +118,24 @@ footer .btn {
     border-radius: 10px;
     color: white;
     font-size: 18px;
+    cursor: pointer;
+}
+
+.opcoes-autocomplete {
+    background-color: white;
+    width: 200px;
+    position: absolute;
+    border-radius: 7px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.opcoes-autocomplete:hover {
+    background-color: #adadad;
+}
+
+.opcoes-autocomplete p {
+    padding-left: 10px;
+    margin: 0px;
     cursor: pointer;
 }

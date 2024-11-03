@@ -1,4 +1,8 @@
 ﻿@page "/produto"
+@using System.Linq;
+@using Blazored.Typeahead;
+@using System.Collections.Generic
+
 
 <html>
     <head>
@@ -35,7 +39,17 @@
         {
             <div class="form-group">
                 <label for="nomePopular">Nome popular</label>
-                <input id="nomePopular" type="text" @bind="produto.Nome" disabled="@(isDisabled)" />
+
+            <input id="nomePopular" @onblur="closeOptions" @oninput="@(e => inputBuscar(e.Value.ToString()))" type="text" @bind="produto.Nome" disabled="@(isDisabled)" />
+                @if (opcoes.Any())
+                {
+                        <div class="opcoes-autocomplete">
+                        @foreach (var opcao in opcoes)
+                        {
+                            <p @onclick="() => selecionar(opcao)">@opcao</p>
+                        }
+                        </div>
+                }
             </div>
 
             <div class="form-group">
@@ -48,14 +62,14 @@
                 <select id="classificacao" @bind="produto.Classificacao" disabled="@(isDisabled)">
                     <option value="">Selecione...</option>
                     <option value="Tuberosa">Tuberosa</option>
-                    <option value="Tuberosa2">Tuberosa2</option>
-
+                    <option value="Hebacias">Hebácias</option>
+                    <option value="Fruto">Fruto</option>
                 </select>
             </div>
 
             <div class="row">
                 <div class="form-group">
-                    <label for="tempoDePlantio">Tempo de plantio / Dias</label>
+                    <label for="tempoDePlantio">Tempo de plantio / Meses</label>
                     <input id="tempoDePlantio" type="text" @bind="produto.TempoEstimado" disabled="@(isDisabled)"/>
                 </div>
 
@@ -99,7 +113,16 @@
             <div class="cadastro-simples">
                 <div class="form-group">
                     <label for="nome">Nome</label>
-                    <input id="nome" type="text" @bind="produto.Nome" disabled="@(isDisabled)" />
+                    <input id="nome" type="text" @onblur="closeOptions" @oninput="@(e => inputBuscar(e.Value.ToString()))" @bind="produto.Nome" disabled="@(isDisabled)" />
+                    @if (opcoes.Any())
+                    {
+                        <div class="opcoes-autocomplete">
+                            @foreach (var opcao in opcoes)
+                            {
+                                <p @onclick="() => selecionar(opcao)">@opcao</p>
+                            }
+                        </div>
+                    }
                 </div>
 
                 <div class="form-group">
@@ -144,16 +167,47 @@
     private bool isLogin;
     private bool isDisabled = false;
 
-    // private bool venda = true;
-    // private bool uso = false;
+    private List<string> opcoes = new List<string>();
 
+    public List<Product> produtosExistentes = new List<Product>();
     public HttpClient httpClient = new HttpClient();
     public Product produto = new Product();
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
         isLogin = false;
         produto.Categoria = false;
+
+        var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+        if (produtosArray != null)
+        {
+            produtosExistentes = produtosArray.ToList();
+        }
+    }
+
+    public void inputBuscar(string nome)
+    {
+        if (!string.IsNullOrEmpty(nome))
+        {
+            opcoes = produtosExistentes
+                .Where(x => x.Nome.Contains(nome, StringComparison.OrdinalIgnoreCase))
+                .Select(x => x.Nome)
+                .ToList();
+        } else
+        {
+            opcoes.Clear();
+        }
+    }
+
+    private void selecionar(string opcao)
+    {
+        produto.Nome = opcao;
+        opcoes.Clear();
+    }
+
+    private void closeOptions()
+    {
+        opcoes.Clear();
     }
 
     public async Task getProdutoByName()
@@ -245,6 +299,12 @@
                 showSuccessAlert = showDangerAlert = false;
                 StateHasChanged();
 
+                var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                if (produtosArray != null)
+                {
+                    produtosExistentes = produtosArray.ToList();
+                }
+
             } catch
             {
                 alertMessage = "Ocorreu um erro ao deletar o produto!<br>Tente novamente.";
@@ -297,6 +357,12 @@
                     showSuccessAlert = false;
 
                     StateHasChanged();
+
+                    var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                    if (produtosArray != null)
+                    {
+                        produtosExistentes = produtosArray.ToList();
+                    }
 
                     produto = new Product();
 
@@ -353,6 +419,12 @@
                     showSuccessAlert = false;
 
                     StateHasChanged();
+
+                    var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                    if (produtosArray != null)
+                    {
+                        produtosExistentes = produtosArray.ToList();
+                    }
 
                     produto = new Product();
 
@@ -412,14 +484,30 @@
 
 
 
-    private void selectVenda()
+    private async void selectVenda()
     {
+        produto = new Product();
         produto.Categoria = false;
+        opcoes = [];
+
+        var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+        if (produtosArray != null)
+        {
+            produtosExistentes = produtosArray.ToList();
+        }
     }
-    
-    private void selectUso()
+
+    private async void selectUso()
     {
+        produto = new Product();
         produto.Categoria = true;
+        opcoes = [];
+
+        var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":true}}")).ToList();
+        if (produtosArray != null)
+        {
+            produtosExistentes = produtosArray.ToList();
+        }
     }
 
 }

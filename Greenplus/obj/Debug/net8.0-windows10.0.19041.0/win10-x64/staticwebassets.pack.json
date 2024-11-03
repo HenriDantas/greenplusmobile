@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Greenplus.styles.css"
     },
     {
+      "Id": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\wwwroot\\baqground.jpg",
+      "PackagePath": "staticwebassets\\baqground.jpg"
+    },
+    {
       "Id": "C:\\Users\\santo\\Documents\\GitHub\\greenplusmobile\\Greenplus\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },

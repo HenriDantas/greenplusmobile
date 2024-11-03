@@ -2,6 +2,14 @@ html[b-wd85cp06ic] {
     height: 100%;
     background: linear-gradient(to right, #005e00, #3ace3a);
 }
+.imagem[b-wd85cp06ic] {
+    position: absolute;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.8;
+    background-image: url("../Resources/Images/baqground.jpg");
+}
 
 body[b-wd85cp06ic] {
     height: 100vh;
@@ -10,9 +18,10 @@ body[b-wd85cp06ic] {
     padding: 0;
     display: flex;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
     position: relative;
     overflow: hidden;
+    z-index:  1;
     background: linear-gradient(to right, #005e00, #3ace3a);
 }
 
