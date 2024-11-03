@@ -62,6 +62,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Remove="wwwroot\pilar.jpg" />
+      <Content Remove="wwwroot\pizza.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
       <MauiImage Remove="Resources\Images\baqground.jpg" />
     </ItemGroup>
 
@@ -105,6 +110,8 @@
 
     <ItemGroup>
       <Resource Include="wwwroot\baqground.jpg" />
+      <Resource Include="wwwroot\pilar.jpg" />
+      <Resource Include="wwwroot\pizza.jpg" />
     </ItemGroup>
 
 </Project>

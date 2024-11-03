@@ -32,11 +32,9 @@
             <label class="loginLbl" style="padding-right: 46vw ">Senha</label>
             <input class="loginInput" type="password" @bind="senha"
                />
-            @* @onkeypress="@(e => { if (e.Key == "Enter") OnButtonClick(); })" *@
-
             @if (isDisabled == false)
             {
-                <button class="loginBtn" @onclick="OnButtonClick">Entrar</button>
+                <button class="loginBtn" @onclick="Logar">Entrar</button>
             }else{
                 <button class="loginBtn" style="background-color:gray;">Entrar</button>
             }
@@ -66,7 +64,7 @@
         isLogin = true;
     }
 
-    private async Task OnButtonClick()
+    private async Task Logar()
     {
         if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(senha))
         {
@@ -87,7 +85,8 @@
                 isDisabled = true;
                 var senhaSecreta = await JSRuntime.InvokeAsync<string>("encryptPassword", senha);
 
-                var query = await httpClient.GetFromJsonAsync<ResponseStatus>("https://rest-node-mztn.onrender.com/{\"tabela\":\"User\", \"where\":{\"username\":\"" + usuario + "\"}, \"senha\":\"" + senhaSecreta + "\"}");
+                var query = await httpClient.GetFromJsonAsync<ResponseStatus>("https://rest-node-mztn.onrender.com/"
+                    +"{\"tabela\":\"User\", \"where\":{\"username\":\"" + usuario + "\"}, \"senha\":\"" + senhaSecreta + "\"}");
 
                 if(query.Status == 1)
                 {
@@ -135,14 +134,6 @@
                 StateHasChanged();
             }
 
-        }
-    }
-
-    private void HandleKeyDown(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            OnButtonClick();
         }
     }
 }

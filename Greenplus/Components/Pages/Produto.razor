@@ -15,10 +15,12 @@
             </div>
         }
     <body>
-        <div class="alert alert-danger" role="alert" style="display:@(showDangerAlert ? "block" : "none");text-align: center;">
+        <div class="alert alert-danger" role="alert" 
+            style="display:@(showDangerAlert ? "block" : "none");text-align: center;">
             @((MarkupString)alertMessage)
         </div>
-        <div class="alert alert-success" role="success" style="display:@(showSuccessAlert ? "block" : "none");text-align: center;">
+        <div class="alert alert-success" role="success" 
+            style="display:@(showSuccessAlert ? "block" : "none");text-align: center;">
             @((MarkupString)alertMessage)
         </div>
 
@@ -40,7 +42,9 @@
             <div class="form-group">
                 <label for="nomePopular">Nome popular</label>
 
-            <input id="nomePopular" @onblur="closeOptions" @oninput="@(e => inputBuscar(e.Value.ToString()))" type="text" @bind="produto.Nome" disabled="@(isDisabled)" />
+                <input id="nomePopular" @onblur="closeOptions" 
+                    @oninput="@(e => inputBuscar(e.Value.ToString()))" type="text" @bind="produto.Nome" 
+                    disabled="@(isDisabled)" />
                 @if (opcoes.Any())
                 {
                         <div class="opcoes-autocomplete">
@@ -75,7 +79,7 @@
 
                 <div class="form-group">
                     <label for="temperatura">Temperatura / °C</label>
-                <input id="tempoDePlantio" type="text" @bind="produto.Temperatura" disabled="@(isDisabled)"/>
+                <input id="temperatura" type="text" @bind="produto.Temperatura" disabled="@(isDisabled)"/>
                 </div>
             </div>
 
@@ -94,7 +98,8 @@
 
             <div class="form-group">
                 <label for="valorVenda">Valor de venda (R$)</label>
-                <input id="valorVenda" type="text" style="width: 50%;" @bind="produto.ValorVenda" disabled="@(isDisabled)" />
+                <input id="valorVenda" type="text" style="width: 50%;" 
+                    @bind="produto.ValorVenda" disabled="@(isDisabled)" />
             </div>
 
             <footer>
@@ -113,7 +118,9 @@
             <div class="cadastro-simples">
                 <div class="form-group">
                     <label for="nome">Nome</label>
-                    <input id="nome" type="text" @onblur="closeOptions" @oninput="@(e => inputBuscar(e.Value.ToString()))" @bind="produto.Nome" disabled="@(isDisabled)" />
+                    <input id="nome" type="text" @onblur="closeOptions" 
+                        @oninput="@(e => inputBuscar(e.Value.ToString()))" @bind="produto.Nome" 
+                        disabled="@(isDisabled)" />
                     @if (opcoes.Any())
                     {
                         <div class="opcoes-autocomplete">
@@ -178,7 +185,8 @@
         isLogin = false;
         produto.Categoria = false;
 
-        var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+        var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"+
+            "/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
         if (produtosArray != null)
         {
             produtosExistentes = produtosArray.ToList();
@@ -215,7 +223,9 @@
         isDisabled = true;
         try
         {
-            var query = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"limite\":1, \"where\":{\"Nome\":\"" + produto.Nome + "\",\"Categoria\":\""+produto.Categoria+"\"}}");
+            var query = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"
+            +"/{\"tabela\":\"Produto\", \"limite\":1, \"where\":{\"Nome\":\"" + produto.Nome 
+            + "\",\"Categoria\":\""+produto.Categoria+"\"}}");
 
             if (query[0] != null)
             {
@@ -280,7 +290,8 @@
 
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://rest-node-mztn.onrender.com/{{\"tabela\":\"Produto\", \"where\":{{\"ProdutoId\": \"{produto.ProdutoId}\"}}}}");
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://rest-node-mztn.onrender.com"+
+                "/{{\"tabela\":\"Produto\", \"where\":{{\"ProdutoId\": \"{produto.ProdutoId}\"}}}}");
 
                 var response = await httpClient.SendAsync(request);
 
@@ -299,7 +310,8 @@
                 showSuccessAlert = showDangerAlert = false;
                 StateHasChanged();
 
-                var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"+
+                "/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
                 if (produtosArray != null)
                 {
                     produtosExistentes = produtosArray.ToList();
@@ -341,10 +353,20 @@
                 {
                     if (produto.Categoria)
                     {
-                        var query = await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"ProdutoId\":\"" + produto.ProdutoId + "\"},\"update\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome + "\", \"Descricao\":\"" + produto.Descricao + "\", \"EstadoDeConservacao\":\"" + produto.EstadoDeConservacao + "\"}}", null);
+                        var query = await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com"+
+                            "/{\"tabela\":\"Produto\", \"where\":{\"ProdutoId\":\"" + produto.ProdutoId 
+                            + "\"},\"update\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome 
+                            + "\", \"Descricao\":\"" + produto.Descricao + "\", \"EstadoDeConservacao\":\"" 
+                            + produto.EstadoDeConservacao + "\"}}", null);
                     } else
                     {
-                        await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"ProdutoId\":\"" + produto.ProdutoId + "\"},\"update\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
+                        await httpClient.PatchAsJsonAsync<Product>("https://rest-node-mztn.onrender.com"
+                            +"/{\"tabela\":\"Produto\", \"where\":{\"ProdutoId\":\"" + produto.ProdutoId 
+                            + "\"},\"update\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" 
+                            + produto.Nome + "\", \"NomeCientifico\":\"" + produto.NomeCientifico 
+                            + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" 
+                            + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" 
+                            + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
                     }
 
                     alertMessage = $"Produto editado com sucesso!";
@@ -358,7 +380,8 @@
 
                     StateHasChanged();
 
-                    var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                    var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"
+                    +"/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
                     if (produtosArray != null)
                     {
                         produtosExistentes = produtosArray.ToList();
@@ -403,10 +426,18 @@
                 {
                     if (produto.Categoria)
                     {
-                        var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"insert\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome + "\", \"Descricao\":\"" + produto.Descricao + "\", \"EstadoDeConservacao\":\"" + produto.EstadoDeConservacao + "\"}}", null);
+                        var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com"
+                            +"/{\"tabela\":\"Produto\", \"insert\":{\"Categoria\":\"" + produto.Categoria 
+                            + "\", \"Nome\":\"" + produto.Nome + "\", \"Descricao\":\"" + produto.Descricao 
+                            + "\", \"EstadoDeConservacao\":\"" + produto.EstadoDeConservacao + "\"}}", null);
                     } else
                     {
-                        var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"insert\":{\"Categoria\":\"" + produto.Categoria + "\", \"Nome\":\"" + produto.Nome + "\", \"NomeCientifico\":\"" + produto.NomeCientifico + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
+                        var query = await httpClient.PostAsJsonAsync<Product>("https://rest-node-mztn.onrender.com"
+                            +"/{\"tabela\":\"Produto\", \"insert\":{\"Categoria\":\"" + produto.Categoria 
+                            + "\", \"Nome\":\"" + produto.Nome + "\", \"NomeCientifico\":\"" + produto.NomeCientifico 
+                            + "\", \"Classificacao\":\"" + produto.Classificacao + "\", \"TempoEstimado\":" 
+                            + produto.TempoEstimado + ", \"Temperatura\":" + produto.Temperatura + ", \"Irrigacao\":" 
+                            + produto.Irrigacao + ", \"ValorVenda\":" + produto.ValorVenda + "}}", null);
                     }
 
                     alertMessage = $"Produto cadastrado com sucesso!";
@@ -420,7 +451,8 @@
 
                     StateHasChanged();
 
-                    var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                    var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"
+                    +"/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
                     if (produtosArray != null)
                     {
                         produtosExistentes = produtosArray.ToList();

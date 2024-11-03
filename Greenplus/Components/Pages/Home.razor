@@ -17,7 +17,7 @@
                     
                     <div class="text-resumo">
                         <h6>Plantio</h6>
-                        <p>50</p>
+                        <p>00</p>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
 
                     <div class="text-resumo">
                     <h6>Colheita</h6>
-                        <p>31</p>
+                        <p>00</p>
                     </div>
                 </div>
             </div>
@@ -37,13 +37,13 @@
         <div class="pizza">
             <p><strong>Vendas</strong> por Categoria</p>
 
-            @* colocar grafico? *@
+            @* <img src="~/pizza.jpg"/> *@
         </div>
 
         <div class="coluna">
             <p>Total de <strong>Vendas</strong></p>
 
-            @* colocar grafico? *@
+            @* <img src="~/pilar.jpg"/>  *@
         </div>
     </body>
 </html>
@@ -51,12 +51,12 @@
 
 @code {
     private bool isMenuVisible = false;
-    private string menuStyle = "width: 0px;"; // Menu inicialmente oculto fora da tela
+    private string menuStyle = "width: 0px;";
 
     private void ToggleMenu()
     {
         isMenuVisible = !isMenuVisible;
-        menuStyle = isMenuVisible ? "left: 0;" : "left: -200px;"; // Mostra ou oculta o menu
+        menuStyle = isMenuVisible ? "left: 0;" : "left: -200px;";
     }
 
     private bool isLogin;
@@ -64,7 +64,6 @@
 
     protected override void OnInitialized()
     {
-        // Código que será executado logo quando a tela inicia
         isLogin = false;
     }
 }

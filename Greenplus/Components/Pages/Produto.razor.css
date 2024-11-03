@@ -130,7 +130,7 @@ footer .btn {
     margin-bottom: 10px;
 }
 
-.opcoes-autocomplete:hover {
+.opcoes-autocomplete p:hover {
     background-color: #adadad;
 }
 
