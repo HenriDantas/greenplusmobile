@@ -10,6 +10,6 @@ namespace Greenplus.Database
 {
     public class ResponseStatus
     {
-        public int Status { get; set; }
+        public int status { get; set; }
     }
 }

@@ -3,48 +3,51 @@
 
 @using Greenplus.Components.Pages
 @inject IJSRuntime JSRuntime
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Threading.Tasks;
 
 @inject NavigationManager Navigation
 
 <html>
-    <head>
+<head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    </head>
-    @if (!isLogin)
-    {
-        <div class="sidebar">
-            <Greenplus.Components.Layout.NavMenu />
-        </div>
-    }
-    <body>
-        @* <img src="~/baqground.jpg" class="imagem" /> *@
-        
-        <div class="alert alert-danger" role="alert" style="display:@(showAlert ? "block" : "none");text-align: center;">
+</head>
+@if (!isLogin)
+{
+    <div class="sidebar">
+        <Greenplus.Components.Layout.NavMenu />
+    </div>
+}
+<body>
+    @* <img src="~/baqground.jpg" class="imagem" /> *@
+
+    <div class="alert alert-danger" role="alert" style="display:@(showAlert ? "block" : "none");text-align: center;">
         @((MarkupString)alertMessage)
-        </div>
+    </div>
 
-        <div class="cardLogin">
-            <h1>Login</h1>
+    <div class="cardLogin">
+        <h1>Login</h1>
 
-            <label class="loginLbl">Usuário</label>
-            <input class="loginInput" type="text" @bind="usuario" />
+        <label class="loginLbl">Usuário</label>
+        <input class="loginInput" type="text" @bind="usuario" />
 
-            <label class="loginLbl" style="padding-right: 46vw ">Senha</label>
-            <input class="loginInput" type="password" @bind="senha"
-               />
-            @if (isDisabled == false)
-            {
-                <button class="loginBtn" @onclick="Logar">Entrar</button>
-            }else{
-                <button class="loginBtn" style="background-color:gray;">Entrar</button>
-            }
-        </div>
-    </body>
-    <script>
-        function encryptPassword(password) {
-            return CryptoJS.MD5(password).toString();
+        <label class="loginLbl" style="padding-right: 46vw ">Senha</label>
+        <input class="loginInput" type="password" @bind="senha"
+        />
+        @if (isDisabled == false)
+        {
+            <button class="loginBtn" @onclick="OnButtonClick">Entrar</button>
+        }else{
+            <button class="loginBtn" style="background-color:gray;">Entrar</button>
         }
-    </script>
+    </div>
+</body>
+<script>
+    function encryptPassword(password) {
+    return CryptoJS.MD5(password).toString();
+    }
+</script>
 </html>
 
 
@@ -64,7 +67,7 @@
         isLogin = true;
     }
 
-    private async Task Logar()
+    private async Task OnButtonClick()
     {
         if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(senha))
         {
@@ -80,21 +83,30 @@
             StateHasChanged();
         } else
         {
-            try
-            {
-                isDisabled = true;
-                var senhaSecreta = await JSRuntime.InvokeAsync<string>("encryptPassword", senha);
+            var senhaSecreta = "";
+            // try
+            // {
+            isDisabled = true;
+            senhaSecreta = await JSRuntime.InvokeAsync<string>("encryptPassword", senha);
 
-                var query = await httpClient.GetFromJsonAsync<ResponseStatus>("https://rest-node-mztn.onrender.com/"
-                    +"{\"tabela\":\"User\", \"where\":{\"username\":\"" + usuario + "\"}, \"senha\":\"" + senhaSecreta + "\"}");
+            Console.WriteLine(usuario);
+            Console.WriteLine(senhaSecreta);
+            Console.WriteLine(senha);
 
-                if(query.Status == 1)
+            var response = await httpClient.GetStringAsync("https://rest-node-mztn.onrender.com/{\"tabela\":\"User\", \"where\":{\"username\":\"" + usuario + "\"}, \"senha\":\"" + senhaSecreta + "\"}");
+            // var query = await httpsClient.GetFromJsonAsync<ResponseStatus>("https://rest-node-mztn.onrender.com/{\"tabela\":\"User\", \"where\":{\"username\":\"" + usuario + "\"}, \"senha\":\"21232f297a57a5a743894a0e4a801fc3\"}");
+
+            var responseS = JsonSerializer.Deserialize<string>(response);
+
+            var query = JsonSerializer.Deserialize<ResponseStatus>(responseS);
+
+                if(query.status == 1)
                 {
                     showAlert = false;
                     Navigation.NavigateTo("/home");
                     isDisabled = false;
 
-                } else if(query.Status == 0)
+                } else if(query.status == 0)
                 {                
                     alertMessage = "Usuário ou Senha inválidos!";
                     showAlert = true;
@@ -120,19 +132,21 @@
                     StateHasChanged();
                 }
 
-            } catch(Exception e)
-            {
-                alertMessage = $"Usuário não encontrado!<br>Tente novamente.";
-                showAlert = true;
-                isDisabled = false;
+            // } catch(Exception e)
+            // {
+            //     Console.WriteLine(e);
 
-                StateHasChanged();
+            //     alertMessage = $"Usuário não encontrado!!<br>Tente novamente.";
+            //     showAlert = true;
+            //     isDisabled = false;
 
-                await Task.Delay(3000);
-                showAlert = false;
+            //     StateHasChanged();
 
-                StateHasChanged();
-            }
+            //     await Task.Delay(3000);
+            //     showAlert = false;
+
+            //     StateHasChanged();
+            // }
 
         }
     }

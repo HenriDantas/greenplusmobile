@@ -2,164 +2,165 @@
 @using System.Linq;
 @using Blazored.Typeahead;
 @using System.Collections.Generic
+@using System.Text.Json
 
 
 <html>
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    </head>
-        @if (!isLogin)
-        {
-            <div class="sidebar">
-                <Greenplus.Components.Layout.NavMenu />
-            </div>
-        }
-    <body>
-        <div class="alert alert-danger" role="alert" 
-            style="display:@(showDangerAlert ? "block" : "none");text-align: center;">
-            @((MarkupString)alertMessage)
-        </div>
-        <div class="alert alert-success" role="success" 
-            style="display:@(showSuccessAlert ? "block" : "none");text-align: center;">
-            @((MarkupString)alertMessage)
-        </div>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+@if (!isLogin)
+{
+    <div class="sidebar">
+        <Greenplus.Components.Layout.NavMenu />
+    </div>
+}
+<body>
+    <div class="alert alert-danger" role="alert" 
+    style="display:@(showDangerAlert ? "block" : "none");text-align: center;">
+        @((MarkupString)alertMessage)
+    </div>
+    <div class="alert alert-success" role="success" 
+    style="display:@(showSuccessAlert ? "block" : "none");text-align: center;">
+        @((MarkupString)alertMessage)
+    </div>
 
-        <div class="form-group categoria">
-            <label><strong>Categoria</strong></label>
-            <div class="radio-options">
-                <label>
-                    <input type="radio" @onchange="selectVenda" checked="@((!produto.Categoria))" />
-                    Venda
-                </label>
-                <label>
+    <div class="form-group categoria">
+        <label><strong>Categoria</strong></label>
+        <div class="radio-options">
+            <label>
+                <input type="radio" @onchange="selectVenda" checked="@((!produto.Categoria))" />
+                Venda
+            </label>
+            <label>
                 <input type="radio" @onchange="selectUso" checked="@((produto.Categoria))" />
-                    Uso interno
-                </label>
+                Uso interno
+            </label>
+        </div>
+    </div>
+    @if (!produto.Categoria)
+    {
+        <div class="form-group">
+            <label for="nomePopular">Nome popular</label>
+
+            <input id="nomePopular" @onblur="closeOptions" 
+            @oninput="@(e => inputBuscar(e.Value.ToString()))" type="text" @bind="produto.Nome" 
+            disabled="@(isDisabled)" />
+            @if (opcoes.Any())
+            {
+                <div class="opcoes-autocomplete">
+                    @foreach (var opcao in opcoes)
+                    {
+                        <p @onclick="() => selecionar(opcao)">@opcao</p>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="nomeCientifico">Nome científico</label>
+            <input id="nomeCientifico" type="text" @bind="produto.NomeCientifico" disabled="@(isDisabled)" />
+        </div>
+
+        <div class="form-group">
+            <label for="classificacao">Classificação</label>
+            <select id="classificacao" @bind="produto.Classificacao" disabled="@(isDisabled)">
+                <option value="">Selecione...</option>
+                <option value="Tuberosa">Tuberosa</option>
+                <option value="Hebacias">Hebácias</option>
+                <option value="Fruto">Fruto</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="tempoDePlantio">Tempo de plantio / Meses</label>
+                <input id="tempoDePlantio" type="text" @bind="produto.TempoEstimado" disabled="@(isDisabled)"/>
+            </div>
+
+            <div class="form-group">
+                <label for="temperatura">Temperatura / °C</label>
+                <input id="temperatura" type="text" @bind="produto.Temperatura" disabled="@(isDisabled)"/>
             </div>
         </div>
-    @if (!produto.Categoria)
-        {
-            <div class="form-group">
-                <label for="nomePopular">Nome popular</label>
 
-                <input id="nomePopular" @onblur="closeOptions" 
-                    @oninput="@(e => inputBuscar(e.Value.ToString()))" type="text" @bind="produto.Nome" 
-                    disabled="@(isDisabled)" />
+        <div class="form-group">
+            <label for="irrigacao">Irrigação / Hrs</label>
+            <select id="irrigacao" style="width: 50%;" @bind="produto.Irrigacao" disabled="@(isDisabled)">
+                <option value="">Selecione...</option>
+                <option value="4">4 Horas</option>
+                <option value="8">8 Horas</option>
+                <option value="12">12 Horas</option>
+                <option value="16">16 Horas</option>
+                <option value="20">20 Horas</option>
+                <option value="24">24 Horas</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="valorVenda">Valor de venda (R$)</label>
+            <input id="valorVenda" type="text" style="width: 50%;" 
+            @bind="produto.ValorVenda" disabled="@(isDisabled)" />
+        </div>
+
+        <footer>
+            <button class="bi bi-search btn search-btn" style="background-color:@(isDisabled ? "gray" : "orange")" 
+            @onclick="getProdutoByName" disabled="@(isDisabled)">
+            </button>
+            <button class="bi bi-trash-fill btn cancel-btn" style="background-color:@(isDisabled ? "gray" : "red")"
+            @onclick="deleteProdutoByName" disabled="@(isDisabled)">
+            </button>
+            <button class="bi bi-check2 btn confirm-btn" style="background-color:@(isDisabled ? "gray" : "green")"
+            @onclick="postOrEditProdutoByName" disabled="@(isDisabled)">
+            </button>
+        </footer>
+    } else if (produto.Categoria)
+    {
+        <div class="cadastro-simples">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input id="nome" type="text" @onblur="closeOptions" 
+                @oninput="@(e => inputBuscar(e.Value.ToString()))" @bind="produto.Nome" 
+                disabled="@(isDisabled)" />
                 @if (opcoes.Any())
                 {
-                        <div class="opcoes-autocomplete">
+                    <div class="opcoes-autocomplete">
                         @foreach (var opcao in opcoes)
                         {
                             <p @onclick="() => selecionar(opcao)">@opcao</p>
                         }
-                        </div>
+                    </div>
                 }
             </div>
 
             <div class="form-group">
-                <label for="nomeCientifico">Nome científico</label>
-                <input id="nomeCientifico" type="text" @bind="produto.NomeCientifico" disabled="@(isDisabled)" />
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" @bind="produto.Descricao" disabled="@(isDisabled)"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="classificacao">Classificação</label>
-                <select id="classificacao" @bind="produto.Classificacao" disabled="@(isDisabled)">
-                    <option value="">Selecione...</option>
-                    <option value="Tuberosa">Tuberosa</option>
-                    <option value="Hebacias">Hebácias</option>
-                    <option value="Fruto">Fruto</option>
+                <label for="estadoConservacao">Estado de conservação</label>
+                <select id="estadoConservacao" @bind="produto.EstadoDeConservacao" disabled="@(isDisabled)">
+                    <option value="">Selecione</option>
+                    <option value="bom">Bom</option>
+                    <option value="regular">Regular</option>
+                    <option value="ruim">Ruim</option>
                 </select>
             </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <label for="tempoDePlantio">Tempo de plantio / Meses</label>
-                    <input id="tempoDePlantio" type="text" @bind="produto.TempoEstimado" disabled="@(isDisabled)"/>
-                </div>
-
-                <div class="form-group">
-                    <label for="temperatura">Temperatura / °C</label>
-                <input id="temperatura" type="text" @bind="produto.Temperatura" disabled="@(isDisabled)"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="irrigacao">Irrigação / Hrs</label>
-                <select id="irrigacao" style="width: 50%;" @bind="produto.Irrigacao" disabled="@(isDisabled)">
-                    <option value="">Selecione...</option>
-                    <option value="4">4 Horas</option>
-                    <option value="8">8 Horas</option>
-                    <option value="12">12 Horas</option>
-                    <option value="16">16 Horas</option>
-                    <option value="20">20 Horas</option>
-                    <option value="24">24 Horas</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="valorVenda">Valor de venda (R$)</label>
-                <input id="valorVenda" type="text" style="width: 50%;" 
-                    @bind="produto.ValorVenda" disabled="@(isDisabled)" />
-            </div>
-
-            <footer>
-            <button class="bi bi-search btn search-btn" style="background-color:@(isDisabled ? "gray" : "orange")" 
-                    @onclick="getProdutoByName" disabled="@(isDisabled)">
+        </div>
+        <footer>
+            <button class="bi bi-search btn search-btn" style="background-color:@(isDisabled ? "gray" : "orange")"
+            @onclick="getProdutoByName" disabled="@(isDisabled)">
             </button>
             <button class="bi bi-trash-fill btn cancel-btn" style="background-color:@(isDisabled ? "gray" : "red")"
-                    @onclick="deleteProdutoByName" disabled="@(isDisabled)">
+            @onclick="deleteProdutoByName" disabled="@(isDisabled)">
             </button>
             <button class="bi bi-check2 btn confirm-btn" style="background-color:@(isDisabled ? "gray" : "green")"
-                    @onclick="postOrEditProdutoByName" disabled="@(isDisabled)">
+            @onclick="postOrEditProdutoByName" disabled="@(isDisabled)">
             </button>
-            </footer>
-        } else if (produto.Categoria)
-        {
-            <div class="cadastro-simples">
-                <div class="form-group">
-                    <label for="nome">Nome</label>
-                    <input id="nome" type="text" @onblur="closeOptions" 
-                        @oninput="@(e => inputBuscar(e.Value.ToString()))" @bind="produto.Nome" 
-                        disabled="@(isDisabled)" />
-                    @if (opcoes.Any())
-                    {
-                        <div class="opcoes-autocomplete">
-                            @foreach (var opcao in opcoes)
-                            {
-                                <p @onclick="() => selecionar(opcao)">@opcao</p>
-                            }
-                        </div>
-                    }
-                </div>
-
-                <div class="form-group">
-                    <label for="descricao">Descrição</label>
-                    <textarea id="descricao" @bind="produto.Descricao" disabled="@(isDisabled)"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="estadoConservacao">Estado de conservação</label>
-                    <select id="estadoConservacao" @bind="produto.EstadoDeConservacao" disabled="@(isDisabled)">
-                        <option value="">Selecione</option>
-                        <option value="bom">Bom</option>
-                        <option value="regular">Regular</option>
-                        <option value="ruim">Ruim</option>
-                    </select>
-                </div>
-            </div>
-            <footer>
-                <button class="bi bi-search btn search-btn" style="background-color:@(isDisabled ? "gray" : "orange")"
-                        @onclick="getProdutoByName" disabled="@(isDisabled)">
-                </button>
-                <button class="bi bi-trash-fill btn cancel-btn" style="background-color:@(isDisabled ? "gray" : "red")"
-                        @onclick="deleteProdutoByName" disabled="@(isDisabled)">
-                </button>
-                <button class="bi bi-check2 btn confirm-btn" style="background-color:@(isDisabled ? "gray" : "green")"
-                        @onclick="postOrEditProdutoByName" disabled="@(isDisabled)">
-                </button>
-            </footer>
-        }
-    </body>
+        </footer>
+    }
+</body>
 </html>
 
 @code {
@@ -185,8 +186,12 @@
         isLogin = false;
         produto.Categoria = false;
 
-        var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"+
-            "/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+        var response = (await httpClient.GetStringAsync("https://rest-node-mztn.onrender.com" +
+            "/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}"));
+
+        var responseS = JsonSerializer.Deserialize<string>(response);
+
+        var produtosArray = JsonSerializer.Deserialize<Product[]>(responseS);
         if (produtosArray != null)
         {
             produtosExistentes = produtosArray.ToList();
@@ -223,9 +228,14 @@
         isDisabled = true;
         try
         {
-            var query = await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"
+            var response = await httpClient.GetStringAsync("https://rest-node-mztn.onrender.com"
             +"/{\"tabela\":\"Produto\", \"limite\":1, \"where\":{\"Nome\":\"" + produto.Nome 
             + "\",\"Categoria\":\""+produto.Categoria+"\"}}");
+
+
+            var responseS = JsonSerializer.Deserialize<string>(response);
+
+            var query = JsonSerializer.Deserialize<Product[]>(responseS);
 
             if (query[0] != null)
             {
@@ -290,8 +300,9 @@
 
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://rest-node-mztn.onrender.com"+
-                "/{{\"tabela\":\"Produto\", \"where\":{{\"ProdutoId\": \"{produto.ProdutoId}\"}}}}");
+                Console.WriteLine(produto);
+                // Console.WriteLine(produtoI)
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://rest-node-mztn.onrender.com/{{\"tabela\":\"Produto\", \"where\":{{\"ProdutoId\": \"{produto.ProdutoId}\"}}}}");
 
                 var response = await httpClient.SendAsync(request);
 
@@ -310,8 +321,12 @@
                 showSuccessAlert = showDangerAlert = false;
                 StateHasChanged();
 
-                var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"+
-                "/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                var prod = (await httpClient.GetStringAsync("https://rest-node-mztn.onrender.com" +
+                "/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}"));
+
+                var responseS = JsonSerializer.Deserialize<string>(prod);
+
+                var produtosArray = JsonSerializer.Deserialize<Product[]>(responseS);
                 if (produtosArray != null)
                 {
                     produtosExistentes = produtosArray.ToList();
@@ -380,8 +395,14 @@
 
                     StateHasChanged();
 
-                    var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"
-                    +"/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                    var response = (await httpClient.GetStringAsync("https://rest-node-mztn.onrender.com"
+                    +"/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}"));
+
+
+                    var responseS = JsonSerializer.Deserialize<string>(response);
+
+                    var produtosArray = JsonSerializer.Deserialize<Product[]>(responseS);
+
                     if (produtosArray != null)
                     {
                         produtosExistentes = produtosArray.ToList();
@@ -451,8 +472,13 @@
 
                     StateHasChanged();
 
-                    var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com"
-                    +"/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+                    var response = (await httpClient.GetStringAsync("https://rest-node-mztn.onrender.com"
+                    +"/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}"));
+
+                    var responseS = JsonSerializer.Deserialize<string>(response);
+
+                    var produtosArray = JsonSerializer.Deserialize<Product[]>(responseS);
+
                     if (produtosArray != null)
                     {
                         produtosExistentes = produtosArray.ToList();
@@ -522,7 +548,12 @@
         produto.Categoria = false;
         opcoes = [];
 
-        var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}")).ToList();
+        var response = (await httpClient.GetStringAsync("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":false}}"));
+
+        var responseS = JsonSerializer.Deserialize<string>(response);
+
+        var produtosArray = JsonSerializer.Deserialize<Product[]>(responseS);
+
         if (produtosArray != null)
         {
             produtosExistentes = produtosArray.ToList();
@@ -535,7 +566,12 @@
         produto.Categoria = true;
         opcoes = [];
 
-        var produtosArray = (await httpClient.GetFromJsonAsync<Product[]>("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":true}}")).ToList();
+        var response = (await httpClient.GetStringAsync("https://rest-node-mztn.onrender.com/{\"tabela\":\"Produto\", \"where\":{\"Categoria\":true}}"));
+
+        var responseS = JsonSerializer.Deserialize<string>(response);
+
+        var produtosArray = JsonSerializer.Deserialize<Product[]>(responseS);
+
         if (produtosArray != null)
         {
             produtosExistentes = produtosArray.ToList();

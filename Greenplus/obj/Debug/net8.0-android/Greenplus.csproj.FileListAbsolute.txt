@@ -3402,3 +3402,15 @@ C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-andro
 C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\stamp\_ResolveLibraryProjectImports.stamp
 C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\android\assets\Blazored.Typeahead.dll
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\bin\Debug\net8.0-android\Greenplus.staticwebassets.endpoints.json
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\bin\Debug\net8.0-android\Microsoft.Maui.Controls.HotReload.Forms.dll
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.TapContract.dll
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\staticwebassets.build.endpoints.json
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\staticwebassets\msbuild.Greenplus.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\staticwebassets.upToDateCheck.txt
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\staticwebassets.publish.endpoints.json
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\Greenplus.csproj.Up2Date
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.Controls.HotReload.Forms.dll
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
+C:\Users\santo\Documents\GitHub\greenplusmobile\Greenplus\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.TapContract.dll
